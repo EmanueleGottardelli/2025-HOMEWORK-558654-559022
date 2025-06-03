@@ -22,8 +22,8 @@ public class StanzaTest {
 		attrezzo2 = new Attrezzo("attrezzo2",2);
 		attrezzo3 = new Attrezzo("attrezzo3",3);
 		
-		this.stanza1.impostaStanzaAdiacente("nord", stanza2);
-		this.stanza2.impostaStanzaAdiacente("sud", stanza1);
+		this.stanza1.impostaStanzaAdiacente(Direzione.valueOf("nord"), stanza2);
+		this.stanza2.impostaStanzaAdiacente(Direzione.valueOf("sud"), stanza1);
 		
 		this.stanza1.addAttrezzo(attrezzo3);
 		
@@ -31,8 +31,8 @@ public class StanzaTest {
 
 	@Test
 	public void testGetStanzaAdiacente() {		
-		assertEquals(stanza1, this.stanza2.getStanzaAdiacente("sud"));
-		assertEquals(stanza2, this.stanza1.getStanzaAdiacente("nord"));
+		assertEquals(stanza1, this.stanza2.getStanzaAdiacente(Direzione.valueOf("sud")));
+		assertEquals(stanza2, this.stanza1.getStanzaAdiacente(Direzione.valueOf("nord")));
 	}
 	
 	@Test
@@ -43,7 +43,10 @@ public class StanzaTest {
 	
 	@Test
 	public void testRemoveAttrezzo(){
+		Attrezzo attrezzo4 = new Attrezzo("attrezzo4", 2);
+		
 		assertTrue(this.stanza1.removeAttrezzo(attrezzo3));
+		assertFalse(this.stanza1.removeAttrezzo(attrezzo4));
 		assertFalse(this.stanza1.removeAttrezzo(attrezzo2));
 		
 	}

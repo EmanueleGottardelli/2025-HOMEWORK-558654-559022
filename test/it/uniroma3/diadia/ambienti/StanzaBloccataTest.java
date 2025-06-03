@@ -15,9 +15,9 @@ public class StanzaBloccataTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		attrezzoSbloccante = new Attrezzo("piede di porco",3);
-		sb = new StanzaBloccata("sb","nord","piede di porco");
+		sb = new StanzaBloccata("sb",Direzione.valueOf("nord"),"piede di porco");
 		s = new Stanza("s");
-		sb.impostaStanzaAdiacente("nord", s);
+		sb.impostaStanzaAdiacente(Direzione.valueOf("nord"), s);
 	}
 
 	@Test
@@ -28,13 +28,13 @@ public class StanzaBloccataTest {
 	
 	@Test
 	public void testGetStanzaAdiacenteDirezioneBloccata() {
-		assertEquals(sb,sb.getStanzaAdiacente("nord"));
+		assertEquals(sb,sb.getStanzaAdiacente(Direzione.valueOf("nord")));
 	}
 	
 	@Test
 	public void testGetStanzaAdiacenteDirezioneSbloccata() {
 		sb.addAttrezzo(attrezzoSbloccante);
-		assertEquals(s,sb.getStanzaAdiacente("nord"));
+		assertEquals(s,sb.getStanzaAdiacente(Direzione.valueOf("nord")));
 	}
 
 }
