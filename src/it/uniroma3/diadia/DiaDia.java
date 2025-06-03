@@ -1,8 +1,10 @@
 package it.uniroma3.diadia;
 
+import java.util.Scanner;
+
+import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.comandi.Comando;
-import it.uniroma3.diadia.comandi.FabbricaDiComandi;
-import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -31,12 +33,17 @@ public class DiaDia {
 	private Partita partita;
 	private IO io;
 
-	public DiaDia(IO io) {
-		this.partita = new Partita();
+//	public DiaDia(IO io) {
+//		this.partita = new Partita();
+//		this.io = io;
+//	}
+	
+	public DiaDia(Labirinto labirinto, IO io) {
+		this.partita = new Partita(labirinto);
 		this.io = io;
 	}
 
-	public void gioca() {
+	public void gioca() throws Exception{
 		String istruzione;
 
 		io.mostraMessaggio(MESSAGGIO_BENVENUTO);	
@@ -54,9 +61,9 @@ public class DiaDia {
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
 	 */
 	
-	private boolean processaIstruzione(String istruzione) {
+	private boolean processaIstruzione(String istruzione) throws Exception{
 		Comando comandoDaEseguire;
-		FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica(io);
+		FabbricaDiComandiRiflessiva factory = new FabbricaDiComandiRiflessiva(io);
 		
 		comandoDaEseguire = factory.costruisciComando(istruzione);
 		comandoDaEseguire.esegui(this.partita);
@@ -67,9 +74,14 @@ public class DiaDia {
 		return this.partita.isFinita();
 	}
 
-	public static void main(String[] argc) {
-		IO io = new IOConsole();
-		DiaDia gioco = new DiaDia(io);
+	public static void main(String[] argc) throws Exception {
+		/* N.B. unica istanza di IOConsole
+		di cui sia ammessa la creazione */
+		Scanner scanner = new Scanner(System.in);
+		IO io = new IOConsole(scanner);
+		Labirinto labirinto = new Labirinto.LabirintoBuilder("labirinto.txt").getLabirinto();
+		DiaDia gioco = new DiaDia(labirinto, io);
 		gioco.gioca();
+		scanner.close();
 	}
 }

@@ -1,6 +1,5 @@
 package it.uniroma3.diadia.comandi;
 
-import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
 /**
@@ -9,30 +8,14 @@ import it.uniroma3.diadia.Partita;
  * e sullo stato della partita
  */
 
-public class ComandoGuarda implements Comando {
+public class ComandoGuarda extends AbstractComando {
 	static final String NOME = "guarda";
-	private IO io;
 	
 	@Override
 	public void esegui(Partita partita) {
-		io.mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
-		io.mostraMessaggio(partita.getGiocatore().getBorsa().toString());
-		io.mostraMessaggio("Hai ancora: "+partita.getGiocatore().getCfu());	
-	}
-
-	@Override
-	public void setParametro(String parametro) {
-	
-	}
-	
-	@Override
-	public String getParametro() {
-		return null;
-	}
-
-	@Override
-	public void setIO(IO io) {
-		this.io = io;
+		this.getIO().mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
+		this.getIO().mostraMessaggio(partita.getGiocatore().getBorsa().toString());
+		this.getIO().mostraMessaggio("Hai ancora: "+partita.getGiocatore().getCfu());	
 	}
 
 	@Override
